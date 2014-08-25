@@ -16,10 +16,9 @@
 	The CAS_FILTER needs to be in the right position within the filter chain.
 	--> 
 	<security:http entry-point-ref="casAuthenticationEntryPoint" auto-config="true">
-		<security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 	 	<security:intercept-url pattern="/**" access="ROLE_USER" />
-		<security:form-login login-page='/login'/>
 		<security:custom-filter position="CAS_FILTER" ref="casAuthenticationFilter"></security:custom-filter>
+		 <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
 	</security:http>
 
 <!--
@@ -28,7 +27,7 @@ specify an Id Even though the authenticationManager is created by
 default when namespace based config is used.
 -->
 <security:authentication-manager alias="authenticationManager">
-<security:authentication-provider ref="casAuthenticationProvider"></security:authentication-provider>
+	<security:authentication-provider ref="casAuthenticationProvider"></security:authentication-provider>
 </security:authentication-manager>
 
 <!--
@@ -36,7 +35,7 @@ This section is used to configure CAS. The service is the
 actual redirect that will be triggered after the CAS login sequence.
 -->
 <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
-<property name="service" value="https://localhost:8443/mvctest/j_spring_cas_security_check"></property>
+<property name="service" value="http://localhost:8080/mvctest/j_spring_cas_security_check"></property>
 <property name="sendRenew" value="false"></property>
 </bean>
 
@@ -44,7 +43,17 @@ actual redirect that will be triggered after the CAS login sequence.
 The CAS filter handles the redirect from the CAS server and starts the ticket validation.
 -->
 <bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
-<property name="authenticationManager" ref="authenticationManager"></property>
+	<property name="authenticationManager" ref="authenticationManager"></property>
+	
+</bean>
+
+<bean id="filterSecurityInterceptor" autowire="byType" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+	<property name="authenticationManager" ref="authenticationManager"></property>
+	<property name="securityMetadataSource" ref="customSecurityMetadataSource" />
+ </bean>
+ 
+<bean id="customSecurityMetadataSource" class="my.spring.CustomFilterInvocationSecurityMetadataSource">
+	
 </bean>
 
 <!--
@@ -64,7 +73,6 @@ Handles the CAS ticket processing.
 <property name="serviceProperties" ref="serviceProperties"></property>
 <property name="ticketValidator">
 <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-    
 	<constructor-arg index="0" value="https://localhost:8443/cas" /> 
 </bean>
 </property>
