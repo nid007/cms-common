@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="/WEB-INF/db.properties"  ignore-unresolvable="true" />
+	<!--
+	Enable security, let the casAuthenticationEntryPoint handle all intercepted urls.
+	The CAS_FILTER needs to be in the right position within the filter chain.
+	--> 
+	<security:http entry-point-ref="casAuthenticationEntryPoint" auto-config="true">
+	 	<security:intercept-url pattern="/**" access="ROLE_USER" />
+		<security:custom-filter position="CAS_FILTER" ref="casAuthenticationFilter"></security:custom-filter>
+		 <security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
+	</security:http>
+
+<!--
+Required for the casProcessingFilter, so define it explicitly set and
+specify an Id Even though the authenticationManager is created by
+default when namespace based config is used.
+-->
+<security:authentication-manager alias="authenticationManager">
+	<security:authentication-provider ref="casAuthenticationProvider"></security:authentication-provider>
+</security:authentication-manager>
+
+<!--
+This section is used to configure CAS. The service is the
+actual redirect that will be triggered after the CAS login sequence.
+-->
+<bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+<property name="service" value="http://localhost:8080/mvctest/j_spring_cas_security_check"></property>
+<property name="sendRenew" value="false"></property>
+</bean>
+
+<!--
+The CAS filter handles the redirect from the CAS server and starts the ticket validation.
+-->
+<bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
+	<property name="authenticationManager" ref="authenticationManager"></property>
+	
+</bean>
+
+<bean id="filterSecurityInterceptor" autowire="byType" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+	<property name="authenticationManager" ref="authenticationManager"></property>
+	<property name="securityMetadataSource" ref="customSecurityMetadataSource" />
+ </bean>
+ 
+<bean id="customSecurityMetadataSource" class="my.spring.CustomFilterInvocationSecurityMetadataSource">
+	
+</bean>
+
+<!--
+The entryPoint intercepts all the CAS authentication requests.
+It redirects to the CAS loginUrl for the CAS login page.
+-->
+<bean id="casAuthenticationEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+<property name="loginUrl" value="https://sso-cas.pplive.cn:8443/cas/login"></property> 
+<property name="serviceProperties" ref="serviceProperties"></property>
+</bean>
+
+<!--
+Handles the CAS ticket processing.
+-->
+<bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+<property name="authenticationUserDetailsService" ref="authenticationUserDetailsService"/>
+<property name="serviceProperties" ref="serviceProperties"></property>
+<property name="ticketValidator">
+<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+	<constructor-arg index="0" value="https://sso-cas.pplive.cn:8443/cas" /> 
+</bean>
+</property>
+<property name="key" value="cas"></property>
+
+</bean>
+<!-- authorities对应 CAS server的 登录属性， 在此设置到spirng security中，用于spring security的验证 -->
+<bean id="authenticationUserDetailsService" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+	<property name="userDetailsService" ref="userDetailDao"/>
+</bean>
+<bean id="userDetailDao" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+	<property name="dataSource" ref="dataSourceDefault"/>
+</bean>
+
+	
+    <bean id="dataSourceDefault" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${db.default.driver}"/>
+		<property name="jdbcUrl" value="${db.default.url}"/>
+		<property name="idleConnectionTestPeriod" value="${pool.c3p0.idle_connection_test_period}" />
+		<property name="preferredTestQuery" value="${pool.c3p0.preferred_test_query}" />
+		<property name="maxIdleTime" value="${pool.c3p0.max_idle_time}" />
+		<property name="properties">
+			<props>
+				<prop key="user">${db.default.user}</prop>
+				<prop key="password">${db.default.password}</prop>
+				<prop key="c3p0.acquire_increment">${pool.c3p0.acquire_increment}</prop>
+				<prop key="c3p0.max_size">${pool.c3p0.max_size}</prop>
+				<prop key="c3p0.min_size">${pool.c3p0.min_size}</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
