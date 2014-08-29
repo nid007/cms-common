@@ -1,4 +1,4 @@
-package my.spring;
+package com.github.cms.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +47,6 @@ public class CustomFilterInvocationSecurityMetadataSource
 
         Map<String, Collection<ConfigAttribute>> map = new HashMap<String, Collection<ConfigAttribute>>();
 
-        // admin页面
 
         Map<String, String> configs = getResourcesConfig();
 
@@ -76,7 +75,6 @@ public class CustomFilterInvocationSecurityMetadataSource
 
     /**
 
-     * 定义简单url 与role的对应
 
      * @return
 

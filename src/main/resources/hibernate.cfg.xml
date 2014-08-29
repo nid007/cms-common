@@ -4,6 +4,29 @@
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory name="SessionFactory">
-       
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.c3p0.idle_test_period">300</property>
+        <property name="hibernate.c3p0.max_size">100</property>
+        <property name="hibernate.c3p0.max_statements">100</property>
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="hibernate.connection.characterEncoding">UTF-8</property>
+        <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.url">jdbc:mysql://172.16.4.70/test</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.search.autoregister_listeners">false</property>
+        <property name="hibernate.show_sql">false</property>
+        <mapping resource="com/github/cms/bean/Casuser.hbm.xml" />
+        <mapping resource="com/github/cms/bean/ModuleAuthorities.hbm.xml" />
+        <mapping resource="com/github/cms/bean/Users.hbm.xml" />
+        <mapping resource="com/github/cms/bean/Modules.hbm.xml" />
+        <mapping resource="com/github/cms/bean/Authorities.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

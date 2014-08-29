@@ -10,32 +10,10 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="/WEB-INF/db.properties"  ignore-unresolvable="true" />
+    <context:property-placeholder location="db.properties"  ignore-unresolvable="true" />
 	
-	<security:http auto-config="true">
-	    <security:intercept-url pattern="/sys/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-	 	<security:intercept-url pattern="/**" access="ROLE_USER" />
-		<security:form-login login-page='/sys/login'/>
-		
-		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
-	</security:http>
-	<security:authentication-manager alias="authenticationManager">
-  		<security:authentication-provider>
-    		<security:jdbc-user-service data-source-ref="dataSourceDefault"/>
-  		</security:authentication-provider>
-	</security:authentication-manager>
-	<bean id="filterSecurityInterceptor" autowire="byType" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
-		<property name="authenticationManager" ref="authenticationManager"></property>
-		<property name="securityMetadataSource" ref="customSecurityMetadataSource" />
-	</bean>
- 
-	<bean id="customSecurityMetadataSource" class="com.github.cms.controller.CustomFilterInvocationSecurityMetadataSource">
-		
-	</bean>
 	
-	<bean id="authenticationUserDetailsService" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
-		<property name="userDetailsService" ref="userDetailDao"/>
-	</bean>
+	
 	<bean id="userDetailDao" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
 		<property name="dataSource" ref="dataSourceDefault"/>
 	</bean>
@@ -76,16 +54,8 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames"
-			value="WEB-INF/messages/messages" />
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean>
+	
 	<bean id="modulesDao" class="com.github.cms.dao.ModulesDao">
 	    <property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	<bean id="modulesService" class="com.github.cms.service.ModuleService">
-	    
 	</bean>
 </beans>

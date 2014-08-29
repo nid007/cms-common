@@ -1,4 +1,4 @@
-package my.spring;
+package com.github.cms.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,15 +6,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.ContextLoaderListener;
+
+import com.github.cms.dao.ModulesDao;
+import com.github.cms.service.ModuleService;
 
 @Controller
-public class TestController {
+public class SysController {
 	@RequestMapping("/sys/top")
-    public String top() {       
+    public String top() {
         return "sys/top";
     }
 	@RequestMapping("/sys/left")
-    public String left() {       
+    public String left( Model model) {
+		ModuleService service = ContextLoaderListener.getCurrentWebApplicationContext().getBean(ModuleService.class);
+		model.addAttribute("list", service.getModulesList());
         return "sys/left";
     }
 	@RequestMapping("/sys/leftbar")

@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-26 16:09:34 by Hibernate Tools 3.2.2.GA
+// Generated 2014-8-28 15:00:48 by Hibernate Tools 3.2.2.GA
 
 
 
@@ -10,7 +10,9 @@ public class AuthoritiesId  implements java.io.Serializable {
 
 
      private String username;
+     public static final String USERNAME = "username";
      private String authority;
+     public static final String AUTHORITY = "authority";
 
     public AuthoritiesId() {
     }

@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-26 16:09:34 by Hibernate Tools 3.2.2.GA
+// Generated 2014-8-28 15:00:48 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.HashSet;
@@ -12,9 +12,13 @@ public class Users  implements java.io.Serializable {
 
 
      private String username;
+     public static final String USERNAME = "username";
      private String password;
+     public static final String PASSWORD = "password";
      private boolean enabled;
+     public static final String ENABLED = "enabled";
      private Set authoritieses = new HashSet(0);
+     public static final String AUTHORITIESES = "authoritieses";
 
     public Users() {
     }

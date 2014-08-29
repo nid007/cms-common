@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-26 16:09:34 by Hibernate Tools 3.2.2.GA
+// Generated 2014-8-28 15:00:48 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -11,12 +11,19 @@ public class Modules  implements java.io.Serializable {
 
 
      private String moduleId;
+     public static final String MODULEID = "moduleId";
      private String title;
+     public static final String TITLE = "title";
      private String parent;
+     public static final String PARENT = "parent";
      private String link;
+     public static final String LINK = "link";
      private byte enabled;
+     public static final String ENABLED = "enabled";
      private String note;
+     public static final String NOTE = "note";
      private Date createtime;
+     public static final String CREATETIME = "createtime";
 
     public Modules() {
     }

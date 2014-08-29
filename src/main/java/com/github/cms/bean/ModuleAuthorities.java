@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-26 16:09:34 by Hibernate Tools 3.2.2.GA
+// Generated 2014-8-28 15:00:48 by Hibernate Tools 3.2.2.GA
 
 
 
@@ -10,6 +10,7 @@ public class ModuleAuthorities  implements java.io.Serializable {
 
 
      private ModuleAuthoritiesId id;
+     public static final String ID = "id";
 
     public ModuleAuthorities() {
     }
