@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-28 15:00:48 by Hibernate Tools 3.2.2.GA
+// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -10,12 +10,14 @@ import java.util.Date;
 public class Modules  implements java.io.Serializable {
 
 
+     private Integer id;
+     public static final String ID = "id";
      private String moduleId;
      public static final String MODULEID = "moduleId";
      private String title;
      public static final String TITLE = "title";
-     private String parent;
-     public static final String PARENT = "parent";
+     private String parentId;
+     public static final String PARENTID = "parentId";
      private String link;
      public static final String LINK = "link";
      private byte enabled;
@@ -29,22 +31,29 @@ public class Modules  implements java.io.Serializable {
     }
 
 	
-    public Modules(String moduleId, String title, String parent, byte enabled) {
+    public Modules(String moduleId, String title, String parentId, byte enabled) {
         this.moduleId = moduleId;
         this.title = title;
-        this.parent = parent;
+        this.parentId = parentId;
         this.enabled = enabled;
     }
-    public Modules(String moduleId, String title, String parent, String link, byte enabled, String note, Date createtime) {
+    public Modules(String moduleId, String title, String parentId, String link, byte enabled, String note, Date createtime) {
        this.moduleId = moduleId;
        this.title = title;
-       this.parent = parent;
+       this.parentId = parentId;
        this.link = link;
        this.enabled = enabled;
        this.note = note;
        this.createtime = createtime;
     }
    
+    public Integer getId() {
+        return this.id;
+    }
+    
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public String getModuleId() {
         return this.moduleId;
     }
@@ -59,12 +68,12 @@ public class Modules  implements java.io.Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    public String getParent() {
-        return this.parent;
+    public String getParentId() {
+        return this.parentId;
     }
     
-    public void setParent(String parent) {
-        this.parent = parent;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
     public String getLink() {
         return this.link;

@@ -22,7 +22,7 @@ public class ModuleService {
 		ModulesDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(ModulesDao.class);
 		List<Modules> lMod = dao.getModuleList();
 		for(Modules item:lMod){
-			String parent = item.getParent();
+			String parent = item.getParentId();
 			if(StringUtils.isEmpty(parent)){
 				//根菜单
 				ModulesBean bean = map.get(item.getModuleId());

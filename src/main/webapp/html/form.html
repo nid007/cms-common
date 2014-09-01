@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../css/style.css" />
+<title>form</title>
+</head>
+<body>
+
+<div id="page-content" >
+	<div class="form-header">
+		<h1 class="left bottom-dotted">表单名称 </h1>
+	</div><!--/page-header-->
+	
+	<div class="row-fluid">
+<!-- PAGE CONTENT BEGINS HERE -->
+	<form class="form-horizontal">
+	<table class="formtable">
+	<tr>
+		<td>Text Field</td>
+		<td><input type="text" id="form-field-1" placeholder="Username"></td>
+	</tr>
+	<tr>
+		<td>Text Field</td>
+		<td><input type="text" id="form-field-1" placeholder="Username"></td>
+	</tr>
+	<tr>
+		<td>Text Field</td>
+		<td><input type="text" id="form-field-1" placeholder="Username"></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" class="s_btn" value="提交"></td>
+	</tr>
+	</table>
+	</form>
+	</div>
+	
+</div><!--/#page-content-->
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript">		
+$(document).ready(function() {
+	$('a.dropdown-toggle').click(function (e) {
+        var dropDown = $(this).next();
+        $('.dropdown').not(dropDown).slideUp('fast');
+        dropDown.slideToggle('fast');
+        e.preventDefault();
+    })
+})
+</script>
+</body>
+</html>

@@ -23,10 +23,13 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
         <property name="hibernate.show_sql">false</property>
-        <mapping resource="com/github/cms/bean/Casuser.hbm.xml" />
-        <mapping resource="com/github/cms/bean/ModuleAuthorities.hbm.xml" />
+        <mapping resource="com/github/cms/bean/GroupRole.hbm.xml" />
+        <mapping resource="com/github/cms/bean/Groups.hbm.xml" />
+        <mapping resource="com/github/cms/bean/Roles.hbm.xml" />
+        <mapping resource="com/github/cms/bean/ModuleRole.hbm.xml" />
         <mapping resource="com/github/cms/bean/Users.hbm.xml" />
         <mapping resource="com/github/cms/bean/Modules.hbm.xml" />
-        <mapping resource="com/github/cms/bean/Authorities.hbm.xml" />
+        <mapping resource="com/github/cms/bean/GroupUser.hbm.xml" />
+        <mapping resource="com/github/cms/bean/UserRole.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

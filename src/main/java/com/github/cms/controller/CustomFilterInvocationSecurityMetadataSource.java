@@ -24,7 +24,7 @@ public class CustomFilterInvocationSecurityMetadataSource
 			throws IllegalArgumentException {
 		 String url = ((FilterInvocation) object).getRequestUrl();
 
-	        System.out.println("requestUrl is " + url);
+	       // System.out.println("requestUrl is " + url);
 
 	        if (resourceMap == null) {
 

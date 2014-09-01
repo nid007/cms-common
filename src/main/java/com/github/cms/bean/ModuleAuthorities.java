@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-28 15:00:48 by Hibernate Tools 3.2.2.GA
+// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
 
 
 
@@ -9,22 +9,41 @@ package com.github.cms.bean;
 public class ModuleAuthorities  implements java.io.Serializable {
 
 
-     private ModuleAuthoritiesId id;
+     private Integer id;
      public static final String ID = "id";
+     private int moduleId;
+     public static final String MODULEID = "moduleId";
+     private String authority;
+     public static final String AUTHORITY = "authority";
 
     public ModuleAuthorities() {
     }
 
-    public ModuleAuthorities(ModuleAuthoritiesId id) {
-       this.id = id;
+    public ModuleAuthorities(int moduleId, String authority) {
+       this.moduleId = moduleId;
+       this.authority = authority;
     }
    
-    public ModuleAuthoritiesId getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(ModuleAuthoritiesId id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+    public int getModuleId() {
+        return this.moduleId;
+    }
+    
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
+    }
+    public String getAuthority() {
+        return this.authority;
+    }
+    
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
 

@@ -13,6 +13,13 @@ import com.github.cms.service.ModuleService;
 
 @Controller
 public class SysController {
+	@RequestMapping("/sys/module")
+    public String module( Model model) {
+		ModuleService service = ContextLoaderListener.getCurrentWebApplicationContext().getBean(ModuleService.class);
+		model.addAttribute("list", service.getModulesList());
+       
+        return "sys/module";
+    }
 	@RequestMapping("/sys/top")
     public String top() {
         return "sys/top";
@@ -48,10 +55,6 @@ public class SysController {
         String[] arr = new String[]{"this","is","bbb","test"};
         model.addAttribute("atts", arr);
         model.addAttribute("url",request.getRequestURI());
-    //    RequestContextUtils.getWebApplicationContext(request).getb
-        
-   //     ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext();
-        
         return "index";
     }
 	@RequestMapping("/sys/login")
