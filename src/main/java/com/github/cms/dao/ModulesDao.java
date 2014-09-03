@@ -11,17 +11,19 @@ import org.hibernate.criterion.Restrictions;
 
 import com.github.cms.bean.Modules;
 
-public class ModulesDao extends BaseDao<Modules, String> {
+public class ModulesDao extends BaseDao<Modules, Integer> {
 	static final Logger log = Logger.getLogger(Modules.class);
 	
-	public List<Modules> getModuleList(){
+	public List<Modules> getModuleList(boolean showall){
 		List<Modules> list = new ArrayList<Modules>();
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(Modules.class);
-			c.add(Restrictions.eq(Modules.ENABLED, (byte)1));
+			if(!showall){
+				c.add(Restrictions.eq(Modules.ENABLED, (byte)1));
+			}
 			list = c.list();
 			session.getTransaction().commit();			
 		} catch (HibernateException e) {

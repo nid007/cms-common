@@ -85,6 +85,9 @@
 	<bean id="modulesDao" class="com.github.cms.dao.ModulesDao">
 	    <property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean id="userDao" class="com.github.cms.dao.UserDao">
+	    <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 	<bean id="modulesService" class="com.github.cms.service.ModuleService">
 	    
 	</bean>

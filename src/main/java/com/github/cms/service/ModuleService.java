@@ -17,10 +17,10 @@ import com.github.cms.service.bean.ModulesBean;
 
 public class ModuleService {
 	
-	public List<ModulesBean> getModulesList(){
+	public List<ModulesBean> getModulesList(boolean showall){
 		Map<String,ModulesBean> map = new HashMap<String, ModulesBean>();
 		ModulesDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(ModulesDao.class);
-		List<Modules> lMod = dao.getModuleList();
+		List<Modules> lMod = dao.getModuleList(showall);
 		for(Modules item:lMod){
 			String parent = item.getParentId();
 			if(StringUtils.isEmpty(parent)){

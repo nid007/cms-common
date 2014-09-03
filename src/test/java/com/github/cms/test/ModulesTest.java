@@ -15,12 +15,12 @@ public class ModulesTest extends TestCase {
 		
 		
 		ModulesDao dao = MyBeanFactory.getBean(ModulesDao.class);
-		Modules m = dao.get("S");
+		Modules m = dao.get(1);
 		System.out.println(m.getTitle());
 	}
 	public static void main(String[] args) {
 		ModulesDao dao = MyBeanFactory.getBean(ModulesDao.class);
-		Modules m = dao.get("S");
+		Modules m = dao.get(1);
 		System.out.println(m.getTitle());
 		
 	}
