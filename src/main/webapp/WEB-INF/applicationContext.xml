@@ -88,7 +88,22 @@
 	<bean id="userDao" class="com.github.cms.dao.UserDao">
 	    <property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	<bean id="modulesService" class="com.github.cms.service.ModuleService">
-	    
+	<bean id="groupDao" class="com.github.cms.dao.GroupDao">
+	    <property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
+	<bean class="com.github.cms.dao.RoleDao">
+	    <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean class="com.github.cms.dao.GroupMemberDao">
+	    <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean class="com.github.cms.dao.GroupAuthorityDao">
+	    <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+		<bean class="com.github.cms.dao.AuthorityDao">
+	    <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+		<bean id="modulesService" class="com.github.cms.service.ModuleService"></bean>
+	<bean class="com.github.cms.service.GroupMemberService"></bean>
+	<bean class="com.github.cms.service.AuthorityService"></bean>
 </beans>

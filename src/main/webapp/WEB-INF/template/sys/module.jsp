@@ -27,6 +27,7 @@
 					<th><fmt:message key="module.id" /></th>
 					<th><fmt:message key="module.parent" /></th>
 					<th><fmt:message key="module.title" /></th>				
+					<th><fmt:message key="authority" /></th>				
 					<th><fmt:message key="module.enable" /></th>				
 					<th></th>
 				</tr>
@@ -38,6 +39,7 @@
 					<td>${item.module.moduleId}</td>
 					<td>${item.module.parentId}</td>
 					<td>${item.module.title}</td>
+					<td>${item.module.authority}</td>
 					<td>${cms:enable(item.module.enabled)}</td>
 					<td><a href="module_edit?id=${item.module.id}" ><fmt:message key="edit" /></a> | 
 					<a class="delete" href="${item.module.id}" ><fmt:message key="delete" /></a></td>
@@ -49,6 +51,7 @@
 					<td>${si.moduleId}</td>
 					<td>${si.parentId}</td>
 					<td>${si.title}</td>
+					<td>${si.authority}</td>
 					<td>${cms:enable(si.enabled)}</td>
 					<td><a href="module_edit?id=${si.id}" ><fmt:message key="edit" /></a> | 
 					<a class="delete" href="${si.id}" ><fmt:message key="delete" /></a></td>

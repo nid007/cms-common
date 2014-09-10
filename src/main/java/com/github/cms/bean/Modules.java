@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
+// Generated 2014-9-10 14:52:54 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -12,6 +12,8 @@ public class Modules  implements java.io.Serializable {
 
      private Integer id;
      public static final String ID = "id";
+     private String authority;
+     public static final String AUTHORITY = "authority";
      private String moduleId;
      public static final String MODULEID = "moduleId";
      private String title;
@@ -31,13 +33,15 @@ public class Modules  implements java.io.Serializable {
     }
 
 	
-    public Modules(String moduleId, String title, String parentId, byte enabled) {
+    public Modules(String authority, String moduleId, String title, String parentId, byte enabled) {
+        this.authority = authority;
         this.moduleId = moduleId;
         this.title = title;
         this.parentId = parentId;
         this.enabled = enabled;
     }
-    public Modules(String moduleId, String title, String parentId, String link, byte enabled, String note, Date createtime) {
+    public Modules(String authority, String moduleId, String title, String parentId, String link, byte enabled, String note, Date createtime) {
+       this.authority = authority;
        this.moduleId = moduleId;
        this.title = title;
        this.parentId = parentId;
@@ -53,6 +57,13 @@ public class Modules  implements java.io.Serializable {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+    public String getAuthority() {
+        return this.authority;
+    }
+    
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
     public String getModuleId() {
         return this.moduleId;

@@ -7,23 +7,29 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import com.github.cms.bean.GroupMembers;
 import com.github.cms.bean.Modules;
+import com.github.cms.bean.Users;
+import com.github.cms.service.bean.InputBean;
+import com.github.cms.service.bean.PagerResult;
 
-public class ModulesDao extends BaseDao<Modules, Integer> {
-	static final Logger log = Logger.getLogger(ModulesDao.class);
+
+public class GroupMemberDao extends BaseDao<GroupMembers, Long> {
+	static final Logger log = Logger.getLogger(GroupMemberDao.class);
 	
-	public List<Modules> getModuleList(boolean showall){
-		List<Modules> list = new ArrayList<Modules>();
+	
+	
+	public List<GroupMembers> getGroupMembers(int groupId){
+		List<GroupMembers> list = new ArrayList<GroupMembers>();
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
-			Criteria c = session.createCriteria(Modules.class);
-			if(!showall){
-				c.add(Restrictions.eq(Modules.ENABLED, (byte)1));
-			}
+			Criteria c = session.createCriteria(GroupMembers.class);
+			c.add(Restrictions.eq(GroupMembers.GROUPID,groupId));
 			list = c.list();
 			session.getTransaction().commit();			
 		} catch (HibernateException e) {
@@ -32,7 +38,6 @@ public class ModulesDao extends BaseDao<Modules, Integer> {
 			throw e;
 		}
 		return list;
-		
 	}
 
 }

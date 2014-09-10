@@ -7,23 +7,28 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import com.github.cms.bean.Groups;
 import com.github.cms.bean.Modules;
+import com.github.cms.bean.Users;
+import com.github.cms.service.bean.InputBean;
+import com.github.cms.service.bean.PagerResult;
 
-public class ModulesDao extends BaseDao<Modules, Integer> {
-	static final Logger log = Logger.getLogger(ModulesDao.class);
+
+public class GroupDao extends BaseDao<Groups, Integer> {
+	static final Logger log = Logger.getLogger(GroupDao.class);
 	
-	public List<Modules> getModuleList(boolean showall){
-		List<Modules> list = new ArrayList<Modules>();
+	public List<Groups>  getGroupList(){
+		List<Groups> list = new ArrayList<Groups>();
 		Session session = null;
+		long total =0;
 		try {
 			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
-			Criteria c = session.createCriteria(Modules.class);
-			if(!showall){
-				c.add(Restrictions.eq(Modules.ENABLED, (byte)1));
-			}
+			Criteria c = session.createCriteria(Groups.class);
+			
 			list = c.list();
 			session.getTransaction().commit();			
 		} catch (HibernateException e) {

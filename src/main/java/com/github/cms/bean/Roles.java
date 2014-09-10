@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
+// Generated 2014-9-10 14:52:54 by Hibernate Tools 3.2.2.GA
 
 
 

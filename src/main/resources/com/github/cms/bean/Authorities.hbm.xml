@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2014-8-29 15:39:57 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 2014-9-10 14:52:28 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="com.github.cms.bean.Authorities" table="authorities" catalog="test">
-        <composite-id name="id" class="com.github.cms.bean.AuthoritiesId">
-            <key-property name="username" type="string">
-                <column name="username" length="50" />
-            </key-property>
-            <key-property name="authority" type="string">
-                <column name="authority" length="50" />
-            </key-property>
-        </composite-id>
-        <many-to-one name="users" class="com.github.cms.bean.Users" update="false" insert="false" fetch="select">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="users" class="com.github.cms.bean.Users" fetch="select">
             <column name="username" length="50" not-null="true" />
         </many-to-one>
+        <property name="authority" type="string">
+            <column name="authority" length="50" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

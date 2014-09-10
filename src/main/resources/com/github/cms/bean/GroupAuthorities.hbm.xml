@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2014-8-29 15:39:57 by Hibernate Tools 3.2.2.GA -->
+<!-- Generated 2014-9-10 14:52:28 by Hibernate Tools 3.2.2.GA -->
 <hibernate-mapping>
     <class name="com.github.cms.bean.GroupAuthorities" table="group_authorities" catalog="test">
-        <id name="id" type="int">
+        <id name="id" type="java.lang.Integer">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="groupId" type="int">
             <column name="group_id" not-null="true" />

@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.github.cms.bean.Users;
+import com.github.cms.dao.GroupDao;
 import com.github.cms.dao.ModulesDao;
+import com.github.cms.dao.RoleDao;
 import com.github.cms.dao.UserDao;
 import com.github.cms.service.ModuleService;
 import com.github.cms.service.bean.InputBean;
+import com.github.cms.service.bean.PagerResult;
+import com.github.cms.util.PageUtil;
 import com.github.cms.util.RequestUtil;
+import com.github.cms.view.ViewHelper;
 
 @Controller
 public class SysController {
@@ -40,19 +45,23 @@ public class SysController {
 		try {
 			json.append("username", username);
 			json.append("enabled", u.isEnabled());
+			json.append("enableStr", ViewHelper.enable(u.isEnabled()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		
 		return json.toString(); 
     }
-
+	
+	
 	@RequestMapping("/sys/user")
     public String user(HttpServletRequest request, Model model) {
 		UserDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(UserDao.class);
 		InputBean input = RequestUtil.parseInput(request);
-		model.addAttribute("result", dao.getPagerResult(input));
-       
+		PagerResult<Users> result =  dao.getPagerResult(input);
+		model.addAttribute("result",result);
+        String page = PageUtil.generatePageHtml(result, request);
+        model.addAttribute("page", page);
         return "sys/user";
     }
 
@@ -64,7 +73,40 @@ public class SysController {
 	 	return "redirect:user";
 	 }
 
-   
+	@RequestMapping("/sys/group")
+    public String group( Model model) {
+		GroupDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(GroupDao.class);
+		model.addAttribute("list", dao.getGroupList());
+       
+        return "sys/group";
+    }
+
+	@RequestMapping("/sys/group_del")
+	 public String groupDel(HttpServletRequest request, Model model,
+			 @RequestParam(value="id", required=false) String idstr) {
+		GroupDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(GroupDao.class);
+		int id = NumberUtils.toInt(idstr, 0);
+		dao.deleteByKey(id);
+	 	return "redirect:group";
+	 }
+	@RequestMapping("/sys/role")
+    public String role( Model model) {
+		RoleDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(RoleDao.class);
+		model.addAttribute("list", dao.getRoleList());
+       
+        return "sys/role";
+    }
+
+	@RequestMapping("/sys/role_del")
+	 public String roleDel(HttpServletRequest request, Model model,
+			 @RequestParam(value="id", required=false) String idstr) {
+		RoleDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(RoleDao.class);
+		int id = NumberUtils.toInt(idstr, 0);
+		dao.deleteByKey(id);
+	 	return "redirect:role";
+	 }
+	
+
 	@RequestMapping("/sys/module")
     public String module( Model model) {
 		ModuleService service = ContextLoaderListener.getCurrentWebApplicationContext().getBean(ModuleService.class);

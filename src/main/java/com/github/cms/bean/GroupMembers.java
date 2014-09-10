@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
+// Generated 2014-9-10 14:52:54 by Hibernate Tools 3.2.2.GA
 
 
 
@@ -9,7 +9,7 @@ package com.github.cms.bean;
 public class GroupMembers  implements java.io.Serializable {
 
 
-     private long id;
+     private Long id;
      public static final String ID = "id";
      private String username;
      public static final String USERNAME = "username";
@@ -19,17 +19,16 @@ public class GroupMembers  implements java.io.Serializable {
     public GroupMembers() {
     }
 
-    public GroupMembers(long id, String username, int groupId) {
-       this.id = id;
+    public GroupMembers(String username, int groupId) {
        this.username = username;
        this.groupId = groupId;
     }
    
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getUsername() {

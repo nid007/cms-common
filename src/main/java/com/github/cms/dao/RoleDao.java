@@ -7,23 +7,21 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
-import com.github.cms.bean.Modules;
+import com.github.cms.bean.Roles;
 
-public class ModulesDao extends BaseDao<Modules, Integer> {
-	static final Logger log = Logger.getLogger(ModulesDao.class);
+
+public class RoleDao extends BaseDao<Roles, Integer> {
+	static final Logger log = Logger.getLogger(RoleDao.class);
 	
-	public List<Modules> getModuleList(boolean showall){
-		List<Modules> list = new ArrayList<Modules>();
+	public List<Roles>  getRoleList(){
+		List<Roles> list = new ArrayList<Roles>();
 		Session session = null;
 		try {
 			session = sessionFactory.getCurrentSession();
 			session.beginTransaction();
-			Criteria c = session.createCriteria(Modules.class);
-			if(!showall){
-				c.add(Restrictions.eq(Modules.ENABLED, (byte)1));
-			}
+			Criteria c = session.createCriteria(Roles.class);
+			
 			list = c.list();
 			session.getTransaction().commit();			
 		} catch (HibernateException e) {
@@ -33,6 +31,16 @@ public class ModulesDao extends BaseDao<Modules, Integer> {
 		}
 		return list;
 		
+	}
+	
+	public String[] getRoleArr(){
+		List<Roles> list =getRoleList();
+		
+		List<String> l = new ArrayList<String>();
+		for(Roles r:list){
+			l.add(r.getTitle());
+		}
+		return l.toArray(new String[0]);
 	}
 
 }

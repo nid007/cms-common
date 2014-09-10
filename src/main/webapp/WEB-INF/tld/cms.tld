@@ -13,7 +13,16 @@
 		<name>enable</name>
 		<function-class>com.github.cms.view.ViewHelper</function-class>
 		<function-signature>
-		    java.lang.String enable(java.lang.Integer)|(boolean)
+		    java.lang.String enable(java.lang.Integer)
+		</function-signature>
+	</function>
+	
+	
+	<function>
+		<name>enableStr</name>
+		<function-class>com.github.cms.view.ViewHelper</function-class>
+		<function-signature>
+		    java.lang.String enable(boolean)
 		</function-signature>
 	</function>
 	

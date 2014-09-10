@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
+// Generated 2014-9-10 14:52:54 by Hibernate Tools 3.2.2.GA
 
 
 
@@ -9,7 +9,7 @@ package com.github.cms.bean;
 public class GroupAuthorities  implements java.io.Serializable {
 
 
-     private int id;
+     private Integer id;
      public static final String ID = "id";
      private int groupId;
      public static final String GROUPID = "groupId";
@@ -19,17 +19,16 @@ public class GroupAuthorities  implements java.io.Serializable {
     public GroupAuthorities() {
     }
 
-    public GroupAuthorities(int id, int groupId, String authority) {
-       this.id = id;
+    public GroupAuthorities(int groupId, String authority) {
        this.groupId = groupId;
        this.authority = authority;
     }
    
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public int getGroupId() {

@@ -1,29 +1,22 @@
 package com.github.cms.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
-
-
-
-
-
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.github.cms.bean.Modules;
+import com.github.cms.bean.Roles;
 import com.github.cms.dao.ModulesDao;
-import com.github.cms.service.ModuleService;
+import com.github.cms.dao.RoleDao;
 
 @Controller
 @RequestMapping("/sys/module_edit")
@@ -43,7 +36,9 @@ public class ModuleController {
 			module.setId(0);
 			module.setEnabled((byte)1);
 		}
-		
+		RoleDao roleDao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(RoleDao.class);
+		List<Roles> lstRoles = roleDao.getRoleList();
+		model.addAttribute("roles", lstRoles);
 	    model.addAttribute("module", module);
 		return template;
 	 }

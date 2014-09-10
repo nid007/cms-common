@@ -1,5 +1,5 @@
 package com.github.cms.bean;
-// Generated 2014-8-29 15:40:16 by Hibernate Tools 3.2.2.GA
+// Generated 2014-9-10 14:52:54 by Hibernate Tools 3.2.2.GA
 
 
 
@@ -9,24 +9,26 @@ package com.github.cms.bean;
 public class Authorities  implements java.io.Serializable {
 
 
-     private AuthoritiesId id;
+     private Integer id;
      public static final String ID = "id";
      private Users users;
      public static final String USERS = "users";
+     private String authority;
+     public static final String AUTHORITY = "authority";
 
     public Authorities() {
     }
 
-    public Authorities(AuthoritiesId id, Users users) {
-       this.id = id;
+    public Authorities(Users users, String authority) {
        this.users = users;
+       this.authority = authority;
     }
    
-    public AuthoritiesId getId() {
+    public Integer getId() {
         return this.id;
     }
     
-    public void setId(AuthoritiesId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public Users getUsers() {
@@ -35,6 +37,13 @@ public class Authorities  implements java.io.Serializable {
     
     public void setUsers(Users users) {
         this.users = users;
+    }
+    public String getAuthority() {
+        return this.authority;
+    }
+    
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
 

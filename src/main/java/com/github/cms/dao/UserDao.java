@@ -8,16 +8,13 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-
-import com.github.cms.bean.Modules;
 import com.github.cms.bean.Users;
 import com.github.cms.service.bean.InputBean;
 import com.github.cms.service.bean.PagerResult;
 
 
 public class UserDao extends BaseDao<Users, String> {
-	static final Logger log = Logger.getLogger(Modules.class);
+	static final Logger log = Logger.getLogger(UserDao.class);
 	
 	public PagerResult<Users>  getPagerResult(InputBean input){
 		List<Users> list = new ArrayList<Users>();
@@ -44,6 +41,23 @@ public class UserDao extends BaseDao<Users, String> {
 		}
 		return new PagerResult<Users>(input, total, list);
 		
+	}
+	
+	public List<Users> getUsers(){
+		List<Users> list = new ArrayList<Users>();
+		Session session = null;
+		try {
+			session = sessionFactory.getCurrentSession();
+			session.beginTransaction();
+			Criteria c = session.createCriteria(Users.class);
+			list = c.list();
+			session.getTransaction().commit();			
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			log.error("", e);
+			throw e;
+		}
+		return list;
 	}
 
 }
