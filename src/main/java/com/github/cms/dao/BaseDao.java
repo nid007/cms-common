@@ -8,22 +8,19 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
+public abstract class BaseDao<T extends Serializable, PK extends Serializable> extends HibernateDaoSupport  {
 	private final Log log = LogFactory.getLog(BaseDao.class);
-	@Autowired
-	@Qualifier("sessionFactory")
-	protected SessionFactory sessionFactory;
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+	
 
 	private Class<T> entityClass;
 
@@ -47,21 +44,23 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T get(PK id) {
-		T t = null;
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			session.beginTransaction();
-			t = (T) session.get(entityClass, id);
-			session.getTransaction().commit();
-			if (t != null)
-				return t;
-		} catch (HibernateException e) {
-			log.error("", e);
-			session.getTransaction().rollback();
-			throw e;
-		}
-		return t;
+		return getHibernateTemplate().get(entityClass, id);
+//		T t = null;
+//		Session session = null;
+//		try {
+//			
+//			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+//			session.beginTransaction();
+//			t = (T) session.get(entityClass, id);
+//			session.getTransaction().commit();
+//			if (t != null)
+//				return t;
+//		} catch (HibernateException e) {
+//			log.error("", e);
+//			session.getTransaction().rollback();
+//			throw e;
+//		}
+//		return t;
 	}
 
 	/**
@@ -72,24 +71,25 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	 * @return 返回相应实体
 	 */
 	public T load(PK id) {
-		Session session = null;
-		try {
-			session = sessionFactory.getCurrentSession();
-			session.beginTransaction();
-			T t = (T) session.load(entityClass, id);
-			session.getTransaction().commit();
-			if (t != null)
-				return t;
-		} catch (HibernateException e) {
-			log.error("", e);
-			session.getTransaction().rollback();
-			throw e;
-		}
-		return null;
+		return getHibernateTemplate().load(entityClass, id);
+//		Session session = null;
+//		try {
+//			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+//			session.beginTransaction();
+//			T t = (T) session.load(entityClass, id);
+//			session.getTransaction().commit();
+//			if (t != null)
+//				return t;
+//		} catch (HibernateException e) {
+//			log.error("", e);
+//			session.getTransaction().rollback();
+//			throw e;
+//		}
+//		return null;
 	}
 
 	public T loadWithNoTransaction(PK id) {
-		return (T) sessionFactory.getCurrentSession().load(entityClass, id);
+		return (T)  getHibernateTemplate().getSessionFactory().getCurrentSession().load(entityClass, id);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	public List<T> loadAll() {
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			String hql = "from " + entityClass.getSimpleName();
 			Query query = session.createQuery(hql);
@@ -122,14 +122,15 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	 * @param T
 	 *            实体
 	 */
-	public boolean update(T entity) {
+	public void update(T entity) {
+		
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(entity);
 			session.getTransaction().commit();
-			return true;
+			
 		} catch (HibernateException e) {
 			log.error("", e);
 			session.getTransaction().rollback();
@@ -137,12 +138,9 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 		}
 	}
 
-	public void updateWithNoTransaction(T entity) {
-		sessionFactory.getCurrentSession().update(entity);
-	}
 
 	public void evictWithNoTransaction(T entity) {
-		sessionFactory.getCurrentSession().evict(entity);
+		 getHibernateTemplate().getSessionFactory().getCurrentSession().evict(entity);
 	}
 
 	/**
@@ -152,7 +150,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	 *            实体
 	 */
 	public void saveWithNoTransaction(T entity) {
-		sessionFactory.getCurrentSession().save(entity);
+		 getHibernateTemplate().getSessionFactory().getCurrentSession().save(entity);
 	}
 
 	/**
@@ -164,7 +162,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	public boolean saveOrUpdate(T entity) {
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.saveOrUpdate(entity);
 			session.getTransaction().commit();
@@ -180,7 +178,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 		PK ret = null;
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			ret = (PK) session.save(entity);
 			session.getTransaction().commit();
@@ -193,7 +191,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	}
 
 	public void saveOrUpdateWithNoTransaction(T entity) {
-		Session session = sessionFactory.getCurrentSession();
+		Session session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 		session.saveOrUpdate(entity);
 	}
 
@@ -206,11 +204,11 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	public boolean saveOrUpdateAll(Collection<T> entities) {
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			for (Iterator<T> iter = entities.iterator(); iter.hasNext();) {
 				T t = iter.next();
-				sessionFactory.getCurrentSession().saveOrUpdate(t);
+				session.saveOrUpdate(t);
 			}
 			session.getTransaction().commit();
 			return true;
@@ -230,7 +228,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	public boolean delete(T entity) {
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.delete(entity);
 			session.getTransaction().commit();
@@ -243,7 +241,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 	}
 
 	public void deleteWithNoTransaction(T entity) {
-		sessionFactory.getCurrentSession().delete(entity);
+		 getHibernateTemplate().getSessionFactory().getCurrentSession().delete(entity);
 	}
 
 	/**
@@ -268,7 +266,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> {
 
 	// 强制立即更新缓冲数据到数据库（否则仅在事务提交时才更新）
 	public void flush() {
-		sessionFactory.getCurrentSession().flush();
+		 getHibernateTemplate().getSessionFactory().getCurrentSession().flush();
 	}
 }
 

@@ -62,6 +62,9 @@ public class SysController {
 		model.addAttribute("result",result);
         String page = PageUtil.generatePageHtml(result, request);
         model.addAttribute("page", page);
+        model.addAttribute("username",input.getUsername());
+        model.addAttribute("pagesize",input.getPagesize());
+        
         return "sys/user";
     }
 

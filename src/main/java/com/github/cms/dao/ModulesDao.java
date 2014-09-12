@@ -18,7 +18,7 @@ public class ModulesDao extends BaseDao<Modules, Integer> {
 		List<Modules> list = new ArrayList<Modules>();
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(Modules.class);
 			if(!showall){

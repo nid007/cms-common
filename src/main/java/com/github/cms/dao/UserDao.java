@@ -3,11 +3,14 @@ package com.github.cms.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+
 import com.github.cms.bean.Users;
 import com.github.cms.service.bean.InputBean;
 import com.github.cms.service.bean.PagerResult;
@@ -21,10 +24,13 @@ public class UserDao extends BaseDao<Users, String> {
 		Session session = null;
 		long total =0;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(Users.class);
 			
+			if(!StringUtils.isEmpty(input.getUsername())){
+				c.add(Restrictions.like(Users.USERNAME, input.getUsername() + "%"));
+			}
 			total = (Long) c.setProjection(   
 		                Projections.rowCount()).uniqueResult();   
 			c.setProjection(null);
@@ -47,7 +53,7 @@ public class UserDao extends BaseDao<Users, String> {
 		List<Users> list = new ArrayList<Users>();
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(Users.class);
 			list = c.list();

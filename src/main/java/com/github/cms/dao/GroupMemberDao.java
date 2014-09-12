@@ -26,7 +26,7 @@ public class GroupMemberDao extends BaseDao<GroupMembers, Long> {
 		List<GroupMembers> list = new ArrayList<GroupMembers>();
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(GroupMembers.class);
 			c.add(Restrictions.eq(GroupMembers.GROUPID,groupId));

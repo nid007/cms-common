@@ -18,7 +18,7 @@ public class RoleDao extends BaseDao<Roles, Integer> {
 		List<Roles> list = new ArrayList<Roles>();
 		Session session = null;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(Roles.class);
 			

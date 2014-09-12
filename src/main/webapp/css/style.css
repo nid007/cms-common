@@ -380,3 +380,8 @@ outline: medium;
 	clear:both;
 	padding:10px;
 }
+#search-bar{
+	clear:both;
+	background-color: #e7f0f9;
+	padding-left:20px;
+}

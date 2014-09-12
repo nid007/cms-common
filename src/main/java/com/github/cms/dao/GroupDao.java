@@ -25,7 +25,7 @@ public class GroupDao extends BaseDao<Groups, Integer> {
 		Session session = null;
 		long total =0;
 		try {
-			session = sessionFactory.getCurrentSession();
+			session =  getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			Criteria c = session.createCriteria(Groups.class);
 			

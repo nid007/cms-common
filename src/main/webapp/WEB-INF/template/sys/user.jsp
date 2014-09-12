@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/WEB-INF/tld/cms.tld" prefix="cms" %> 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +20,13 @@
 		<h1 class="left"><fmt:message key="user.page.title" /> </h1>
 		<a href="user_add" class="button blue right"><fmt:message key="user.add.title" /></a>
 	</div><!--/page-header-->
-	
+	<div id="search-bar">
+		<form method="get">
+			用户名：<input type="text" name="username" value="<c:out value='${username}' />"/>
+			每页显示<input style="width:20px" type="text" name="pagesize" size="1" value="<c:out value='${pagesize}' />"/>
+			<input type="submit" value="搜索" />
+		</form>
+	</div>
 	
 	<table id="table_bug_report" class="table table-striped table-bordered table-hover table-odd">
 			<thead>
@@ -36,7 +43,9 @@
 				<tr>					
 					<td>${item.username}</td>
 					<td><a class="enable" href="${item.username}" >${cms:enableStr(item.enabled)}</a></td>
-					<td><a href="user_detail?username=${item.username}" ><fmt:message key="detail" /></a> | 
+					<td>
+					<a href="user_authority?username=${item.username}" ><fmt:message key="authority" /></a> |
+					<a href="user_detail?username=${item.username}" ><fmt:message key="detail" /></a> | 
 					<a class="delete" href="${item.username}" ><fmt:message key="delete" /></a></td>
 				</tr>
     </c:forEach>	

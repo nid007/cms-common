@@ -19,6 +19,7 @@ public class RequestUtil {
 		if(input.getPagesize()<0){
 			input.setPagesize(defaultPagesize);
 		}
+		input.setUsername(request.getParameter("username"));
 		return input;
 	}
 
