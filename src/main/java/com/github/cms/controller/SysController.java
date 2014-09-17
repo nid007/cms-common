@@ -6,6 +6,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +24,7 @@ import com.github.cms.dao.GroupDao;
 import com.github.cms.dao.ModulesDao;
 import com.github.cms.dao.RoleDao;
 import com.github.cms.dao.UserDao;
+import com.github.cms.service.AuthorityService;
 import com.github.cms.service.ModuleService;
 import com.github.cms.service.bean.InputBean;
 import com.github.cms.service.bean.PagerResult;
@@ -28,6 +35,13 @@ import com.github.cms.view.ViewHelper;
 @Controller
 public class SysController {
 	
+	@RequestMapping("/sys/admin_pass_reset")
+    public @ResponseBody String user_pass_reset(HttpServletRequest request, Model model,
+   		 @RequestParam(value="username", required=true) String username) {
+		AuthorityService as = ContextLoaderListener.getCurrentWebApplicationContext().getBean(AuthorityService.class);
+		return as.resetPass(username);
+		
+   }
 
 	@RequestMapping("/sys/user_mod_enable")
     public @ResponseBody String user_mod_enable(HttpServletRequest request, Model model,
@@ -165,11 +179,10 @@ public class SysController {
     }
 	@RequestMapping("/sys/login")
     public String login(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        String[] arr = new String[]{"this","is","bbb","test"};
-        model.addAttribute("atts", arr);
-        
-       
+		PasswordEncoder pe = new StandardPasswordEncoder();
+		
+		String pass = pe.encode("123");
+        model.addAttribute("pass", pass);
         return "sys/login";
         
     }

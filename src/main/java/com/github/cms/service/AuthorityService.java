@@ -6,9 +6,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.github.cms.bean.Authorities;
@@ -21,6 +26,7 @@ import com.github.cms.dao.RoleDao;
 import com.github.cms.dao.UserDao;
 import com.github.cms.service.bean.RolesExtend;
 import com.github.cms.util.Utils;
+import com.github.cms.view.ViewHelper;
 
 public class AuthorityService {
 	static final Logger log = Logger.getLogger(AuthorityService.class);
@@ -140,6 +146,28 @@ public class AuthorityService {
 			}
 		}
 		
+	}
+
+	public String resetPass(String username) {
+		UserDao dao = ContextLoaderListener.getCurrentWebApplicationContext().getBean(UserDao.class);
+		Users u = new Users();		
+		u = dao.get(username);
+	
+		String newpass = UUID.randomUUID().toString().substring(0,8);
+		PasswordEncoder pe = (PasswordEncoder)ContextLoaderListener.getCurrentWebApplicationContext().getBean("passwordEncoder");
+		u.setPassword(pe.encode(newpass));
+		
+		dao.update(u);
+		JSONObject json = new JSONObject();
+		try {
+			json.append("username", username);
+			json.append("newpass", newpass);
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return json.toString(); 
+				
 	}
 
 }

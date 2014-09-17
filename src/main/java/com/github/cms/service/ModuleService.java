@@ -91,13 +91,17 @@ public class ModuleService {
 				result.add(mb);
 				
 				List<Modules> l = mb.getSubList();
-				List<Modules> tmp = new ArrayList<Modules>();
-				for(Modules m:l){
-					if(set.contains(m.getAuthority())){
-						tmp.add(m);
+				if(l!=null){
+					List<Modules> tmp = new ArrayList<Modules>();
+					
+					for(Modules m:l){
+						if(set.contains(m.getAuthority())){
+							tmp.add(m);
+						}
 					}
+					mb.setSubList(tmp);
 				}
-				mb.setSubList(tmp);
+				
 			}
 		}
 		

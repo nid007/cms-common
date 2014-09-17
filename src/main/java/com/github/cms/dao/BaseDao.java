@@ -44,23 +44,23 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> e
 	 */
 	@SuppressWarnings("unchecked")
 	public T get(PK id) {
-		return getHibernateTemplate().get(entityClass, id);
-//		T t = null;
-//		Session session = null;
-//		try {
-//			
-//			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-//			session.beginTransaction();
-//			t = (T) session.get(entityClass, id);
-//			session.getTransaction().commit();
-//			if (t != null)
-//				return t;
-//		} catch (HibernateException e) {
-//			log.error("", e);
-//			session.getTransaction().rollback();
-//			throw e;
-//		}
-//		return t;
+		//return getHibernateTemplate().get(entityClass, id);
+		T t = null;
+		Session session = null;
+		try {
+			
+			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			t = (T) session.get(entityClass, id);
+			session.getTransaction().commit();
+			if (t != null)
+				return t;
+		} catch (HibernateException e) {
+			log.error("", e);
+			session.getTransaction().rollback();
+			throw e;
+		}
+		return t;
 	}
 
 	/**
@@ -129,6 +129,29 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> e
 			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.update(entity);
+			
+			session.getTransaction().commit();
+			
+		} catch (HibernateException e) {
+			log.error("", e);
+			session.getTransaction().rollback();
+			throw e;
+		}
+	}
+	
+	/**
+	 * 更新实体
+	 * 
+	 * @param T
+	 *            实体
+	 */
+	public void merge(T entity) {
+		
+		Session session = null;
+		try {
+			session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+			session.beginTransaction();
+			session.merge(entity);
 			session.getTransaction().commit();
 			
 		} catch (HibernateException e) {
@@ -251,7 +274,7 @@ public abstract class BaseDao<T extends Serializable, PK extends Serializable> e
 	 *            主键
 	 */
 	public void deleteByKey(PK id) {
-		delete(load(id));
+		delete(get(id));
 	}
 
 	/**

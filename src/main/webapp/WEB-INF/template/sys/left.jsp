@@ -15,7 +15,7 @@
 	<ul class="nav nav-list">
 	<c:forEach items="${list}" var="item">		
 		<li>
-		  <c:if test="${item.subList ==null }">
+		  <c:if test="${item.subList ==null}">
 		    <a href="${item.module.link}"  target="mainFrame">
 			  <i class="icon-dashboard"></i>
 			  <span>  ${item.module.title}</span>

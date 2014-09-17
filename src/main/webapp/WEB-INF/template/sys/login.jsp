@@ -21,11 +21,21 @@
 	border: 1px solid #ddd;
 }
 </style>
+<script language="javascript">
+function location_top(){
+    if(top.location!=self.location){
+        top.location=self.location;
+        return false;		
+    }
+    return true;
+}
+location_top(); // 调用
+</script>
 </head>
 <body>
  <form action="../j_spring_security_check" method="post">	
     <div id="login">
-   
+    
     <table id="logintable" class="table table-bordered">
 	<thead>
 		<tr>

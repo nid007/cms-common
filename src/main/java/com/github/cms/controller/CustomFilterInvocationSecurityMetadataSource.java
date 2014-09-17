@@ -23,13 +23,13 @@ public class CustomFilterInvocationSecurityMetadataSource
 	private Map<String, Collection<ConfigAttribute>> resourceMap;
 	
 	Collection<ConfigAttribute> defaultConfig = new ArrayList<ConfigAttribute>();
-	Collection<ConfigAttribute> loginConfig = new ArrayList<ConfigAttribute>();
+	Collection<ConfigAttribute> anonymousConfig = new ArrayList<ConfigAttribute>();
 	
 	public CustomFilterInvocationSecurityMetadataSource(){
 		ConfigAttribute config = new SecurityConfig("ROLE_USER");
 		defaultConfig.add(config);
 		ConfigAttribute c = new SecurityConfig("IS_AUTHENTICATED_ANONYMOUSLY");
-		loginConfig.add(c);
+		anonymousConfig.add(c);
 		
 		resourceMap = loadResourceMatchAuthority();
 	}
@@ -46,8 +46,8 @@ public class CustomFilterInvocationSecurityMetadataSource
         }
         Collection<ConfigAttribute> config =  resourceMap.get(url);
         if(config==null){
-        	if(url.equals("/sys/login")){
-        		return loginConfig;
+        	if(url.equals("/sys/login") || url.endsWith(".css") || url.endsWith(".js")){
+        		return anonymousConfig;
         	}
         	config=defaultConfig;
         }

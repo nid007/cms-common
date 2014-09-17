@@ -88,6 +88,7 @@
 	</security:http>
 	<security:authentication-manager alias="authenticationManager">
   		<security:authentication-provider>
+  		    <security:password-encoder ref="passwordEncoder"/>
     		<security:jdbc-user-service data-source-ref="dataSourceDefault"/>
   		</security:authentication-provider>
 	</security:authentication-manager>
@@ -95,7 +96,7 @@
 		<property name="authenticationManager" ref="authenticationManager"></property>
 		<property name="securityMetadataSource" ref="customSecurityMetadataSource" />
 	</bean>
- 
+ 	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"></bean>
 	<bean id="customSecurityMetadataSource" class="com.github.cms.controller.CustomFilterInvocationSecurityMetadataSource">
 		
 	</bean>

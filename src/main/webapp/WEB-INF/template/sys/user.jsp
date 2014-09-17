@@ -44,6 +44,7 @@
 					<td>${item.username}</td>
 					<td><a class="enable" href="${item.username}" >${cms:enableStr(item.enabled)}</a></td>
 					<td>
+					<a class="reset_pass" href="${item.username}" ><fmt:message key="reset_pass" /></a> |
 					<a href="user_authority?username=${item.username}" ><fmt:message key="authority" /></a> |
 					<a href="user_detail?username=${item.username}" ><fmt:message key="detail" /></a> | 
 					<a class="delete" href="${item.username}" ><fmt:message key="delete" /></a></td>
@@ -71,6 +72,28 @@ function update(ele,username){
 			load.innerHTML = "请求失败";
 		});
 }
+function reset(ele,username){
+	
+	$.getJSON( "admin_pass_reset?username=" + username, function( data ) {
+		   $( "#dialog-confirm" ).html("密码重置为：" +data.newpass);
+		
+			$( "#dialog-confirm" ).dialog({
+		      resizable: false,
+		      height:140,
+		      modal: true,
+		      title: "密码重置成功",
+		      buttons: {
+		        "确定": function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+			});
+		}).done(function(){
+			
+		}).fail(function(){
+			alert("请求失败");
+		});
+}
 $(document).ready(function() {
 	$('a.delete').click(function (e) {//处理删除
 		var cid = $(this).attr("href");
@@ -94,7 +117,29 @@ $(document).ready(function() {
 		 e.preventDefault();
 		 $(".ui-dialog-buttonset:first button:last").focus();
     });
-	
+	$('a.reset_pass').click(function (e) {//密码重置
+		var username = $(this).attr("href");
+		var a =  $(this);
+		$( "#dialog-confirm" ).html("确定要重置么?");
+		
+		$( "#dialog-confirm" ).dialog({
+		      resizable: false,
+		      height:140,
+		      modal: true,
+		      title: "确认修改？",
+		      buttons: {
+		        "确定": function() {
+		        	reset(a,username);
+		          $( this ).dialog( "close" );
+		        },
+		        "取消": function() {
+		          $( this ).dialog( "close" );
+		        }
+		      }
+		  });
+		 e.preventDefault();
+		 $(".ui-dialog-buttonset:first button:last").focus();
+    });
 	$('a.enable').click(function (e) {//处理激活
 		var username = $(this).attr("href");
 		var a =  $(this);
@@ -117,7 +162,7 @@ $(document).ready(function() {
 		  });
 		 e.preventDefault();
 		 $(".ui-dialog-buttonset:first button:last").focus();
-    })
+    });
 })
 </script>
 <div id="dialog-confirm" style="display:none"></div>
