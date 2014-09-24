@@ -82,7 +82,8 @@
 	<security:http auto-config="true">
 	    <security:intercept-url pattern="/sys/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 	 	<security:intercept-url pattern="/**" access="ROLE_USER" />
-		<security:form-login login-page='/sys/login'/>
+		<security:form-login login-page='/sys/login' authentication-failure-url="/sys/login?error=true"
+default-target-url="/" />
 		
 		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor" />
 	</security:http>

@@ -35,7 +35,7 @@ location_top(); // 调用
 <body>
  <form action="../j_spring_security_check" method="post">	
     <div id="login">
-    
+
     <table id="logintable" class="table table-bordered">
 	<thead>
 		<tr>

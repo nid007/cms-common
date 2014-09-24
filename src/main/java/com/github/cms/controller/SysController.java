@@ -145,9 +145,14 @@ public class SysController {
         return "sys/top";
     }
 	@RequestMapping("/sys/left")
-    public String left( Model model) {
+    public String left( Model model,HttpServletRequest request) {
 		ModuleService service = ContextLoaderListener.getCurrentWebApplicationContext().getBean(ModuleService.class);
 		model.addAttribute("list", service.getModulesList(false));
+		String context = request.getContextPath();
+		if(context.equals("/")){
+			context = "";
+		}
+		model.addAttribute("context", context);
         return "sys/left";
     }
 	@RequestMapping("/sys/leftbar")

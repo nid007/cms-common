@@ -16,7 +16,7 @@
 	<c:forEach items="${list}" var="item">		
 		<li>
 		  <c:if test="${item.subList ==null}">
-		    <a href="${item.module.link}"  target="mainFrame">
+		    <a href="${context}${item.module.link}"  target="mainFrame">
 			  <i class="icon-dashboard"></i>
 			  <span>  ${item.module.title}</span>
 		    </a>
@@ -28,7 +28,7 @@
 		    </a>
 		  	 <ul class="submenu">
 		  	 <c:forEach items="${item.subList}" var ="si">
-				<li><a href="${si.link}" target="mainFrame"><i class="icon-double-angle-right"></i> ${si.title }</a></li>
+				<li><a href="${context}${si.link}" target="mainFrame"><i class="icon-double-angle-right"></i> ${si.title }</a></li>
 			 </c:forEach>
 		  	 </ul>
 		  </c:if>

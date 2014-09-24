@@ -37,8 +37,10 @@ public class CustomFilterInvocationSecurityMetadataSource
 	public Collection<ConfigAttribute> getAttributes(Object object)
 			throws IllegalArgumentException {
 		String url = ((FilterInvocation) object).getRequestUrl();
+		String context = ((FilterInvocation) object).getHttpRequest().getContextPath();
 		//url 只取问号前的部分
 		url = mytrim(url);
+		url = parse(url,context);
         if (resourceMap == null || resourceMap.size()==0) {
 
         	resourceMap = loadResourceMatchAuthority();
@@ -53,6 +55,18 @@ public class CustomFilterInvocationSecurityMetadataSource
         }
         return config;
 	}
+	public static void main(String[] args) {
+		System.out.println(parse("/cms-common/sys/left","/"));
+	}
+	private static String parse(String url, String context) {
+		if(url==null)return null;
+		if(context==null)return url;
+		if(context.length()>1 && url.length()>context.length()){
+			url = url.substring(context.length());
+		}
+		return url;
+	}
+
 	private String mytrim(String url) {
 		if(url==null){
 			return null;
@@ -61,6 +75,7 @@ public class CustomFilterInvocationSecurityMetadataSource
 		if(i>0){
 			return url.substring(0,i);
 		}
+		
 		return url;
 	}
 
