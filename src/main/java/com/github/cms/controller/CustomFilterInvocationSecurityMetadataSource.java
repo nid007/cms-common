@@ -39,8 +39,10 @@ public class CustomFilterInvocationSecurityMetadataSource
 		String url = ((FilterInvocation) object).getRequestUrl();
 		String context = ((FilterInvocation) object).getHttpRequest().getContextPath();
 		//url 只取问号前的部分
+		String sourceurl = url;
 		url = mytrim(url);
 		url = parse(url,context);
+		
         if (resourceMap == null || resourceMap.size()==0) {
 
         	resourceMap = loadResourceMatchAuthority();
@@ -48,7 +50,7 @@ public class CustomFilterInvocationSecurityMetadataSource
         }
         Collection<ConfigAttribute> config =  resourceMap.get(url);
         if(config==null){
-        	if(url.equals("/sys/login") || url.endsWith(".css") || url.endsWith(".js")){
+        	if(url.equals("/sys/login") || sourceurl.endsWith(".css") || sourceurl.endsWith(".js")){
         		return anonymousConfig;
         	}
         	config=defaultConfig;
@@ -61,7 +63,7 @@ public class CustomFilterInvocationSecurityMetadataSource
 	private static String parse(String url, String context) {
 		if(url==null)return null;
 		if(context==null)return url;
-		if(context.length()>1 && url.length()>context.length()){
+		if(url.startsWith(context)){
 			url = url.substring(context.length());
 		}
 		return url;

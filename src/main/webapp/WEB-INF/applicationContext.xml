@@ -90,7 +90,8 @@ default-target-url="/" />
 	<security:authentication-manager alias="authenticationManager">
   		<security:authentication-provider>
   		    <security:password-encoder ref="passwordEncoder"/>
-    		<security:jdbc-user-service data-source-ref="dataSourceDefault"/>
+    		<security:jdbc-user-service data-source-ref="dataSourceDefault"  
+    		    group-authorities-by-username-query="select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id" />
   		</security:authentication-provider>
 	</security:authentication-manager>
 	<bean id="filterSecurityInterceptor" autowire="byType" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
@@ -104,9 +105,11 @@ default-target-url="/" />
 	
 	<bean id="authenticationUserDetailsService" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
 		<property name="userDetailsService" ref="userDetailDao"/>
+		
 	</bean>
 	<bean id="userDetailDao" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
 		<property name="dataSource" ref="dataSourceDefault"/>
+		
 	</bean>
 	
    
